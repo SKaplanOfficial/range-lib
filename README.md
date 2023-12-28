@@ -1,11 +1,11 @@
-# range-lib
+# RangeObj
 
 A Node library for creating number range objects and performing operations on them.
 
 ## Installation
 
 ```bash
-npm install range-lib
+npm install range-obj
 ```
 
 ## Usage
@@ -13,7 +13,7 @@ npm install range-lib
 ### Basic Usage
 
 ```typescript
-import { range } from 'range-lib';
+import { range } from 'range-obj';
 
 const r1 = range(1, 10);    // default step of 1
 const r2 = range(1, 10, 2); // step of 2
@@ -32,7 +32,7 @@ The union of two ranges is the smallest range fully containing both ranges, whil
 > Note: Ranges must share the same step size to be unionable.
 
 ```typescript
-import { range } from 'range-lib';
+import { range } from 'range-obj';
 
 const r1 = range(1, 10);
 const r2 = range(5, 15);
@@ -46,7 +46,7 @@ console.log(r1.intersection(r2).toArray()); // [5, 6, 7, 8, 9, 10]
 You can transform ranges using the `transform` method, which takes as parameters a function that transforms a number and an optional function that transforms the step size. For example, to multiply each number in a range by 2, you could do the following:
 
 ```typescript
-import { range } from 'range-lib';
+import { range } from 'range-obj';
 
 const r = range(1, 10);
 console.log(r.transform(n => n * 2, step => step * 2).toArray()); // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
@@ -55,7 +55,7 @@ console.log(r.transform(n => n * 2, step => step * 2).toArray()); // [2, 4, 6, 8
 If you do not provide a function to transform the step size, the step size will remain unchanged. For example, to shift a range by 5, you could do the following:
 
 ```typescript
-import { range } from 'range-lib';
+import { range } from 'range-obj';
 
 const r = range(1, 10);
 console.log(r.transform(n => n + 5).toArray()); // [6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
@@ -64,7 +64,7 @@ console.log(r.transform(n => n + 5).toArray()); // [6, 7, 8, 9, 10, 11, 12, 13, 
 For convenience, the library provides a number of predefined transformations as methods on range objects. For example, to multiply each number in a range by 2, you could do the following:
 
 ```typescript
-import { range, transformations } from 'range-lib';
+import { range, transformations } from 'range-obj';
 
 const r = range(1, 10);
 console.log(r.multiply(2).toArray()); // [2, 4, 6, 8, 10, 12, 14, 16, 18, 20]
