@@ -6,7 +6,6 @@ function uid() {
   return Date.now().toString(36) + Math.random().toString(36).substring(2);
 }
 
-
 /**
  * Generates an uppercase unique ID.
  * @returns {string} The ID, with an optional prefix.

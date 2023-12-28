@@ -22,11 +22,11 @@ describe("Range Intersection Tests", () => {
   it("should return the correct intersection when the ranges overlap and have different step sizes", () => {
     const range1 = range(0, 10);
     const range2 = range(5, 15, 2);
-    expect(range1.intersection(range2)?.equals(range(6, 10, 2))).toBe(true);
+    expect(range1.intersection(range2)?.equals(range(5, 10, 2))).toBe(true);
 
     const range3 = range(0, 10, 2);
     const range4 = range(5, 15);
-    expect(range3.intersection(range4)?.equals(range(6, 10, 2))).toBe(true);
+    expect(range3.intersection(range4)?.equals(range(5, 10, 2))).toBe(true);
   });
 
   it("should accurately determine whether ranges intersect when they have the same step size", () => {

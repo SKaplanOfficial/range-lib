@@ -35,6 +35,25 @@ export type Range = JSONEncodable & {
   step: number;
 
   /**
+   * Gets the value at the specified index in the range.
+   * @param index The index of the value to get.
+   * @returns The value at the specified index.
+   */
+  at: (index: number) => number;
+
+  /**
+   * Gets the index of a value in the range.
+   * @param value The value to get the index of.
+   * @returns The index of the value or `-1` if the value is not in the range.
+   */
+  indexOf: (value: number) => number;
+
+  /**
+   * The number of values in the range.
+   */
+  count: number;
+
+  /**
    * The difference between the start and end values.
    */
   length: number;
@@ -54,7 +73,7 @@ export type Range = JSONEncodable & {
    * @param n The value to map.
    * @param to The range to map to.
    * @returns The mapped value.
-   * 
+   *
    * @example
    * ```typescript
    * const range1 = range(5, 10);
@@ -162,4 +181,24 @@ export type Range = JSONEncodable & {
    * @returns The subtracted range.
    */
   subtract: (value: number) => Range;
+
+  /**
+   * Clamps a value to the range. If the value is less than the start of the range, the start of the range is returned. If the value is greater than the end of the range, the end of the range is returned. Otherwise, the value is returned.
+   * @param value The value to clamp.
+   * @returns The clamped value.
+   */
+  clamp: (value: number) => number;
+
+  /**
+   * Wraps a value to the range. The result is the value modulo the length of the range.
+   * @param value The value to wrap.
+   * @returns The wrapped value.
+   */
+  wrap: (value: number) => number;
+
+  /**
+   * Gets an iterator over the values in the range.
+   * @returns An iterator over the values in the range.
+   */
+  enumerate: () => IterableIterator<number>;
 };

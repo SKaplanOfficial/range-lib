@@ -59,4 +59,26 @@ describe("Core Range Tests", () => {
     const range2 = range(0, 10, 2);
     expect(range2.toArray()).toEqual([0, 2, 4, 6, 8, 10]);
   });
+
+  it("should correctly find the index of a value in a range when using indexOf()", () => {
+    const range1 = range(0, 10);
+    expect(range1.indexOf(5)).toBe(5);
+
+    const range2 = range(0, 10, 2);
+    expect(range2.indexOf(6)).toBe(3);
+
+    const range3 = range(15, 32, 3);
+    expect(range3.indexOf(18)).toBe(1);
+  });
+
+  it("should correctly find the value at an index in a range when using at()", () => {
+    const range1 = range(0, 10);
+    expect(range1.at(5)).toBe(5);
+
+    const range2 = range(0, 10, 2);
+    expect(range2.at(3)).toBe(6);
+
+    const range3 = range(15, 32, 3);
+    expect(range3.at(1)).toBe(18);
+  });
 });

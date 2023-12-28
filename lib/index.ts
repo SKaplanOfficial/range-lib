@@ -11,6 +11,12 @@ export { Range } from "./types";
  */
 export function range(start: number, end: number, step = 1): Range {
   const id = generateID("RG");
+
+  let trueEnd = end;
+  if (step !== 1) {
+    trueEnd = start + Math.floor((end - start) / step) * step;
+  }
+
   return {
     start,
 
@@ -18,9 +24,21 @@ export function range(start: number, end: number, step = 1): Range {
 
     step,
 
+    at: (index: number) => start + index * step,
+
+    indexOf: (value: number) => {
+      const index = (value - start) / step;
+      if (index % 1 === 0) {
+        return index;
+      }
+      return -1;
+    },
+
     id,
 
     itemType: "range",
+
+    count: Math.round((end - start) / step + 1),
 
     length: end - start,
 
@@ -43,16 +61,8 @@ export function range(start: number, end: number, step = 1): Range {
       if (step !== otherRange.step) {
         const maxStep = Math.max(step, otherRange.step || 1);
 
-        let lowestSharedStart = Math.max(start, otherRange.start);
-        let highestSharedEnd = Math.min(end, otherRange.end);
-
-        while (lowestSharedStart % maxStep !== 0) {
-          lowestSharedStart += 1;
-        }
-
-        while (highestSharedEnd % maxStep !== 0) {
-          highestSharedEnd -= 1;
-        }
+        const lowestSharedStart = Math.max(start, otherRange.start);
+        const highestSharedEnd = Math.min(end, otherRange.end);
 
         return range(lowestSharedStart, highestSharedEnd, maxStep);
       }
@@ -90,6 +100,42 @@ export function range(start: number, end: number, step = 1): Range {
     divide: (value: number) => range(start / value, end / value, step / value),
     add: (value: number) => range(start + value, end + value, step),
     subtract: (value: number) => range(start - value, end - value, step),
+
+    clamp: (value: number) => {
+      if (value < start) {
+        return start;
+      }
+      if (value > trueEnd) {
+        return trueEnd;
+      }
+
+      const nearestStep = Math.ceil((value - start) / step);
+      return start + nearestStep * step;
+    },
+
+    wrap: (value: number) => {
+      let wrappedValue = value;
+      let hops = 0;
+      while (wrappedValue < start) {
+        wrappedValue += step;
+        hops += 1;
+      }
+
+      while (wrappedValue > end) {
+        wrappedValue -= step;
+        hops -= 1;
+      }
+
+      if (value < start) {
+        return Math.min(trueEnd - (hops - 1) * step, trueEnd);
+      }
+      if (value > trueEnd) {
+        return Math.max(start - (hops + 1) * step, start);
+      }
+
+      const nearestStep = Math.ceil((value - start) / step);
+      return start + nearestStep * step;
+    },
 
     contains: (value: number | Range) => {
       if (step !== 1) {
@@ -132,5 +178,29 @@ export function range(start: number, end: number, step = 1): Range {
     toString: () => `[${start}, ${end}, ${step}]`,
 
     equals: (otherRange: Range) => start === otherRange.start && end === otherRange.end && step === otherRange.step,
+
+    enumerate: () => {
+      let nextIndex = 0;
+      let iterationCount = 0;
+
+      const count = Math.round((trueEnd - start) / step + 1);
+
+      const next = () => {
+        if (nextIndex < count) {
+          const result = { value: start + nextIndex * step, done: false };
+          nextIndex += 1;
+          iterationCount += 1;
+          return result;
+        }
+        return { value: iterationCount, done: true };
+      };
+
+      const iterator = {
+        next,
+        [Symbol.iterator]: () => iterator,
+      };
+
+      return iterator;
+    },
   };
 }

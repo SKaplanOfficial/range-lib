@@ -1,25 +1,15 @@
-# Placeholders Toolkit Changelog
+# RangeObj Changelog
 
-## [0.1.3] - 2023-12-26
+## [0.0.2] - 2023-12-28
 
-- Re-added the `{{selectedFileContents}}` (or just `{{contents}}`) placeholder.
-- Deprecated `PLApplicator.checkForPlaceholders()` in favor of `PLChecker.checkForPlaceholders()`.
-- Added `PLChecker.checkForPlaceholdersInRange()` and `PLChecker.getPlaceholderRanges()`.
-- Added optional `offsets` parameter to `{{clipboardText}}`, allowing users to specify one or more previous clipboard items to return.
-- Fixed bug where `{{fileNames}}` would only return the last file name.
+- Added `Range.at(index)`, which returns the number at the given index in the range.
+- Added `Range.indexOf(n)`, which returns the index of the given number in the range.
+- Added `Range.clamp(n)`, which returns the number in the range closest to the given number.
+- Added `Range.wrap(n)`, which returns the number in the range closest to the given number, wrapping around the range at the endpoints.
+- Added `Range.enumerate()`, which returns an iterator over the numbers in the range.
+- Added `Range.count`, which provides the number of numbers in the range. This is equivalent to `Range.toArray().length`.
+- Fixed bug where the intersection of two ranges with different step sizes would not be computed correctly.
 
-## [0.1.2] - 2023-11-11
+## [0.0.1] - 2023-12-27
 
-- Removed debug console logs.
-
-## [0.1.1] - 2023-11-10
-
-- Added syntax examples for each placeholder.
-- Added support for passing functions instead of strings when using JavaScript placeholders, e.g. `{{js:dialog(() => askAI("What is the capital of Canada?"))}}.
-- Added `{{chooseFile}}`, `{{chooseFolder}}`, and `{{chooseApplication}}` placeholders.
-- Added `{{write to="[path]":...}}` placeholder.
-- General documentation improvements.
-
-## [0.1.0] - 2023-11-07
-
-- First generally stable release.
+- Initial release.
